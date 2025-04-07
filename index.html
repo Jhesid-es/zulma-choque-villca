@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es" class=""> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zulma Choque Villca - Ingeniera Ambiental</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* --- Light Theme (Red Focus) --- */
+            --primary-light: #e53e3e; /* red-600 */
+            --primary-light-rgb: 229, 62, 62; /* RGB for glow */
+            --secondary-light: #fca5a5; /* red-300 */
+            --secondary-light-rgb: 252, 165, 165; /* RGB for glow */
+            --background-light: #fef2f2; /* red-50 */
+            --text-light: #374151; /* gray-700 */
+            --card-light: #ffffff;
+            --border-light: #fecaca; /* red-200 */
+            --leaf-color-light: var(--secondary-light);
+            --glow-color-light-rgb: var(--primary-light-rgb); /* Glow color */
+
+            /* --- Dark Theme (Dark Red Focus) --- */
+            --primary-dark: #f87171; /* red-400 */
+            --primary-dark-rgb: 248, 113, 113; /* RGB for glow */
+            --secondary-dark: #fda4af; /* rose-300 */
+            --secondary-dark-rgb: 253, 164, 175; /* RGB for glow */
+            --background-dark: #7f1d1d; /* red-900 */
+            --text-dark: #fee2e2; /* red-100 */
+            --card-dark: #991b1b; /* red-800 */
+            --border-dark: #b91c1c; /* red-700 */
+            --leaf-color-dark: var(--secondary-dark);
+            --glow-color-dark-rgb: var(--primary-dark-rgb); /* Glow color */
+        }
+
+        html.dark {
+            color-scheme: dark;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            @apply bg-background-light text-text-light dark:bg-background-dark dark:text-text-dark transition-colors duration-300;
+            position: relative;
+        }
+
+        .section {
+            padding: 40px;
+            @apply py-5 px-4 sm:px-6 lg:px-8 relative z-10;
+            /* Remove default padding for sections with top shape */
+        }
+        .section-with-shape {
+             padding-top: 100px; /* Add padding to make space for the shape */
+             margin-top: -50px; /* Overlap slightly with section above */
+             position: relative;
+        }
+         /* Decorative Top Border Shape */
+        .section-shape {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            height: 50px; /* Control height of the shape */
+            z-index: 0; /* Behind section content */
+            transform: translateY(-1px); /* Ensure no gap */
+        }
+
+        .section-shape svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px); /* Ensure full width coverage */
+            height: 50px; /* Match container height */
+        }
+
+        .section-shape .shape-fill {
+            fill: var(--background-light); /* Match the section's background */
+        }
+        html.dark .section-shape .shape-fill {
+             fill: var(--background-dark); /* Match the section's background in dark mode */
+        }
+
+
+        .card {
+            @apply bg-card-light dark:bg-card-dark rounded-xl shadow-lg overflow-hidden transition-all duration-300 border border-transparent p-5;
+             transform: translateY(10px);
+             opacity: 0;
+             transition: transform 0.5s ease-out, opacity 0.5s ease-out, box-shadow 0.3s ease; /* Added box-shadow transition */
+        }
+         .card:hover, .card:focus-within {
+            @apply border-border-light dark:border-border-dark shadow-xl transform scale-[1.02] -translate-y-1;
+            /* Added Red/Pink Glow on Hover */
+            box-shadow: 0 0 20px 5px rgba(var(--glow-color-light-rgb), 0.4);
+         }
+         html.dark .card:hover, html.dark .card:focus-within {
+             box-shadow: 0 0 25px 7px rgba(var(--glow-color-dark-rgb), 0.5);
+         }
+
+         .card.is-visible {
+             transform: translateY(0);
+             opacity: 1;
+         }
+
+        /* Hero Background Image */
+        #hero {
+            position: relative;
+            background-image: url('https://img1.wallspic.com/previews/7/8/4/4/7/174487/174487-cafe_esperanza_pondicherry-petalo-naturaleza-entorno_natural-hbrido_de_t_de_rosa-x750.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            /* Remove padding handled by .section */
+        }
+        #hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            z-index: 1;
+        }
+         html.dark #hero::before {
+             background-color: rgba(127, 29, 29, 0.65);
+         }
+         #hero > .container {
+             position: relative;
+             z-index: 2;
+         }
+
+        /* Timeline Styling */
+        .timeline { position: relative; padding-left: 2.5rem; }
+        .timeline::before {
+            content: ''; position: absolute; left: 0.75rem; top: 10px; bottom: 10px; width: 4px;
+            background-color: var(--primary-light); border-radius: 2px; opacity: 0.5;
+            transform: scaleY(0); transform-origin: top; transition: transform 0.8s ease-out;
+        }
+        html.dark .timeline::before { background-color: var(--primary-dark); }
+        #experience.is-visible .timeline::before { transform: scaleY(1); }
+
+        .timeline-item {
+            position: relative; margin-bottom: 2.5rem; opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease; /* Added box-shadow transition */
+            transition-delay: var(--delay, 0s);
+        }
+        .timeline-item.is-visible { opacity: 1; transform: translateX(0); }
+        /* Glow on timeline item hover */
+        .timeline-item:hover {
+             /* Apply glow to the item itself or the card inside */
+             /* Let's apply to the card inside for consistency */
+        }
+
+
+        .timeline-icon {
+            position: absolute; left: 0; top: 0px; width: 2.5rem; height: 2.5rem; display: flex;
+            align-items: center; justify-content: center; background-color: var(--primary-light);
+            color: var(--background-light); border-radius: 50%; z-index: 1;
+            border: 3px solid var(--card-light); transition: transform 0.4s ease-out;
+        }
+        html.dark .timeline-icon {
+            background-color: var(--primary-dark); color: var(--background-dark); border-color: var(--card-dark);
+        }
+        .timeline-item:hover .timeline-icon { transform: scale(1.1); }
+
+        /* General Animation */
+        .animate-on-scroll {
+             opacity: 0; transform: translateY(20px);
+             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+             transition-delay: var(--delay, 0s);
+        }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+
+        /* Google Material Symbols Base Style */
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+           vertical-align: middle; font-size: 1.2em; flex-shrink: 0;
+        }
+
+        /* Custom CSS Symbol for Lists */
+        .custom-list-marker {
+            display: inline-block; width: 10px; height: 10px; margin-right: 0.75rem;
+            border-radius: 50%; background-color: var(--secondary-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Added box-shadow transition */
+            flex-shrink: 0;
+        }
+        html.dark .custom-list-marker { background-color: var(--secondary-dark); }
+        li:hover .custom-list-marker {
+             transform: scale(1.3);
+             /* Add subtle glow to marker */
+             box-shadow: 0 0 8px 2px rgba(var(--glow-color-light-rgb), 0.5);
+        }
+        html.dark li:hover .custom-list-marker {
+             box-shadow: 0 0 10px 3px rgba(var(--glow-color-dark-rgb), 0.6);
+        }
+
+        /* --- Animated Leaves --- */
+        #leaf-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 5; }
+        .leaf { position: absolute; width: 20px; height: 20px; background-color: var(--leaf-color-light); border-radius: 5% 50%; opacity: 0; pointer-events: none; animation: fall linear infinite; }
+        html.dark .leaf { background-color: var(--leaf-color-dark); }
+        @keyframes fall { 0% { transform: translateY(-50px) rotate(0deg); opacity: 0; } 10% { opacity: 0.7; } 90% { opacity: 0.7; } 100% { transform: translateY(100vh) rotate(360deg); opacity: 0; } }
+
+        /* Glow for buttons and links */
+         a.button-glow, button.button-glow {
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+         }
+         a.button-glow:hover, button.button-glow:hover {
+             box-shadow: 0 0 18px 4px rgba(var(--glow-color-light-rgb), 0.5);
+             transform: scale(1.05); /* Combine scale with glow */
+         }
+         html.dark a.button-glow:hover, html.dark button.button-glow:hover {
+             box-shadow: 0 0 20px 5px rgba(var(--glow-color-dark-rgb), 0.6);
+         }
+         /* Glow for simple text links */
+         a.link-glow {
+             transition: color 0.3s ease, text-shadow 0.3s ease;
+         }
+          a.link-glow:hover {
+             text-shadow: 0 0 10px rgba(var(--glow-color-light-rgb), 0.7);
+          }
+         html.dark a.link-glow:hover {
+              text-shadow: 0 0 12px rgba(var(--glow-color-dark-rgb), 0.8);
+         }
+         /* Glow for tags */
+         .tag-glow {
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+         }
+         .tag-glow:hover {
+            transform: scale(1.05);
+             box-shadow: 0 0 12px 3px rgba(var(--glow-color-light-rgb), 0.4);
+         }
+          html.dark .tag-glow:hover {
+             box-shadow: 0 0 15px 4px rgba(var(--glow-color-dark-rgb), 0.5);
+          }
+
+
+        /* Tailwind Customization */
+        tailwind.config = {
+          darkMode: 'class',
+          theme: { extend: { colors: {
+                primary: { light: 'var(--primary-light)', dark: 'var(--primary-dark)' },
+                secondary: { light: 'var(--secondary-light)', dark: 'var(--secondary-dark)' },
+                background: { light: 'var(--background-light)', dark: 'var(--background-dark)' },
+                text: { light: 'var(--text-light)', dark: 'var(--text-dark)' },
+                card: { light: 'var(--card-light)', dark: 'var(--card-dark)' },
+                border: { light: 'var(--border-light)', dark: 'var(--border-dark)' } } } }
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <div id="leaf-container"></div>
+
+    <header class="sticky top-0 z-[60] bg-card-light/90 dark:bg-card-dark/90 backdrop-blur-lg shadow-md transition-colors duration-300 border-b border-border-light dark:border-border-dark">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold text-primary-light dark:text-primary-dark tracking-tight link-glow">🍁 Zulma</a>
+            <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                 <a href="#about" class="text-text-light dark:text-text-dark/80 hover:text-primary-light dark:hover:text-primary-dark transition-colors link-glow">Acerca de mí</a>
+                <a href="#education" class="text-text-light dark:text-text-dark/80 hover:text-primary-light dark:hover:text-primary-dark transition-colors link-glow">Educación</a>
+                <a href="#experience" class="text-text-light dark:text-text-dark/80 hover:text-primary-light dark:hover:text-primary-dark transition-colors link-glow">Experiencia</a>
+                <a href="#skills" class="text-text-light dark:text-text-dark/80 hover:text-primary-light dark:hover:text-primary-dark transition-colors link-glow">Habilidades</a>
+                <a href="#contact" class="text-text-light dark:text-text-dark/80 hover:text-primary-light dark:hover:text-primary-dark transition-colors link-glow">Contacto</a>
+                <button id="theme-toggle" aria-label="Toggle dark mode" class="p-2 rounded-full text-text-light/70 dark:text-text-dark/70 hover:bg-red-100 dark:hover:bg-red-700 hover:text-primary-light dark:hover:text-primary-dark transition-colors button-glow">
+                    <span class="material-symbols-outlined dark:hidden !text-lg">light_mode</span>
+                    <span class="material-symbols-outlined hidden dark:inline !text-lg">dark_mode</span>
+                </button>
+            </div>
+            <div class="md:hidden flex items-center">
+                 <button id="theme-toggle-mobile" aria-label="Toggle dark mode" class="p-2 mr-2 rounded-full text-text-light/70 dark:text-text-dark/70 hover:bg-red-100 dark:hover:bg-red-700 hover:text-primary-light dark:hover:text-primary-dark transition-colors button-glow">
+                     <span class="material-symbols-outlined dark:hidden !text-lg">light_mode</span>
+                     <span class="material-symbols-outlined hidden dark:inline !text-lg">dark_mode</span>
+                </button>
+                <button id="mobile-menu-button" class="p-2 rounded-md text-text-light/70 dark:text-text-dark/70 hover:bg-red-100 dark:hover:bg-red-700 hover:text-primary-light dark:hover:text-primary-dark transition-colors button-glow" aria-label="Open menu">
+                    <span class="material-symbols-outlined !text-xl">menu</span>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-card-light dark:bg-card-dark shadow-lg py-4 border-t border-border-light dark:border-border-dark">
+            <a href="#about" class="block px-6 py-3 hover:bg-red-100 dark:hover:bg-red-700 hover:text-primary-light dark:hover:text-primary-dark transition-colors menu-link link-glow">Acerca de mí</a>
+            <a href="#education" class="block px-6 py-3 hover:bg-red-100 dark:hover:bg-red-700 hover:text-primary-light dark:hover:text-primary-dark transition-colors menu-link link-glow">Educación</a>
+            <a href="#experience" class="block px-6 py-3 hover:bg-red-100 dark:hover:bg-red-700 hover:text-primary-light dark:hover:text-primary-dark transition-colors menu-link link-glow">Experiencia</a>
+            <a href="#skills" class="block px-6 py-3 hover:bg-red-100 dark:hover:bg-red-700 hover:text-primary-light dark:hover:text-primary-dark transition-colors menu-link link-glow">Habilidades</a>
+            <a href="#contact" class="block px-6 py-3 hover:bg-red-100 dark:hover:bg-red-700 hover:text-primary-light dark:hover:text-primary-dark transition-colors menu-link link-glow">Contacto</a>
+        </div>
+    </header>
+
+    <section id="hero" class="section pt-32 pb-32 text-center animate-on-scroll">
+        <div class="container mx-auto">
+             <img src="./perfil.png"
+                 alt="Foto de perfil de Zulma Choque Villca"
+                 class="w-40 h-40 rounded-full mx-auto mb-6 border-4 border-white dark:border-red-800 shadow-xl object-cover ring-2 ring-primary-light/50 dark:ring-primary-dark/50 animate-on-scroll" style="--delay: 0.1s;"
+                 onerror="this.onerror=null; this.src='https://placehold.co/160x160/e0e0e0/333333?text=Error';">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-3 text-white drop-shadow-md animate-on-scroll" style="--delay: 0.2s;">Zulma Choque Villca</h1>
+            <p class="text-xl md:text-2xl text-red-200 dark:text-red-100 font-medium mb-8 drop-shadow-sm animate-on-scroll" style="--delay: 0.3s;">Ingeniera Ambiental</p>
+             <div class="flex justify-center space-x-6 mb-10 animate-on-scroll" style="--delay: 0.4s;">
+                 <a href="mailto:choque.7366498@gmail.com" target="_blank" rel="noopener noreferrer" class="text-red-100/80 hover:text-white transition-transform hover:scale-110 link-glow" title="Email">
+                    <span class="material-symbols-outlined !text-3xl">mail</span>
+                </a>
+                 <a href="https://linkedin.com/in/zulma-choque-villca-58828b283/" target="_blank" rel="noopener noreferrer" class="text-red-100/80 hover:text-white transition-transform hover:scale-110 link-glow" title="LinkedIn">
+                    <span class="material-symbols-outlined !text-3xl">group</span>
+                </a>
+                 <a href="tel:+59177261791" class="text-red-100/80 hover:text-white transition-transform hover:scale-110 link-glow" title="Teléfono">
+                    <span class="material-symbols-outlined !text-3xl">call</span>
+                </a>
+            </div>
+             <a href="#contact" class="inline-block bg-primary-light dark:bg-primary-dark text-white font-semibold py-3 px-10 rounded-full shadow-lg animate-on-scroll button-glow" style="--delay: 0.5s;">
+                Contáctame
+            </a>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container mx-auto max-w-4xl text-center animate-on-scroll">
+            <h2 class="text-3xl font-bold mb-6 text-center text-primary-light dark:text-primary-dark animate-on-scroll" style="--delay: 0.1s;">Acerca de mí</h2>
+            <p class="text-lg leading-relaxed text-text-light dark:text-text-dark/90 animate-on-scroll" style="--delay: 0.2s;">
+                Soy una persona en busca de un trabajo en una empresa con buen ambiente laboral, donde pueda destacar mis habilidades de liderazgo y trabajo en equipo. Me considero altamente organizada, creativa, y responsable. Poseo una gran capacidad para solucionar problemas de manera eficiente e inteligente. Además, soy sociable y disfruto interactuando con mis compañeros de trabajo, lo que me permite fomentar un ambiente de colaboración y armonía.
+            </p>
+        </div>
+        <div style="height: 30px;"></div>
+    </section>
+    
+
+    <section id="education" class="section  bg-red-100/50 dark:bg-red border-b border-border-light dark:border-border-dark">
+         <div class="section-shape">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31.74,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+        <div class="container mx-auto animate-on-scroll relative z-10"> <h2 class="text-3xl font-bold mb-12 text-center text-primary-light dark:text-primary-dark animate-on-scroll" style="--delay: 0.1s;">Educación y Formación</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="card p-5 flex items-start space-x-4 animate-on-scroll" style="--delay: 0.2s;">
+                    <span class="material-symbols-outlined !text-4xl text-primary-light dark:text-primary-dark mt-1">school</span>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-3 text-text-light dark:text-text-dark">Educación Formal</h3>
+                        <div class="mb-5">
+                            <p class="font-medium text-lg">Ingeniería Ambiental</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Universidad Mayor de San Andrés</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-wider">Agosto 2021 - Actualidad</p>
+                        </div>
+                        <div>
+                            <p class="font-medium text-lg">Bachiller en Humanidades</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Colegio Nacional Antofagasta, Oruro</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-500 uppercase tracking-wider">Diciembre 2012</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-5 flex items-start space-x-4 animate-on-scroll" style="--delay: 0.3s;">
+                     <span class="material-symbols-outlined !text-4xl text-primary-light dark:text-primary-dark mt-1">workspace_premium</span>
+                     <div>
+                        <h3 class="text-xl font-semibold mb-3 text-text-light dark:text-text-dark">Cursos y Seminarios</h3>
+                        <ul class="space-y-2 text-text-light/90 dark:text-text-dark/90 text-sm">
+                            <li class="flex items-center"><span class="custom-list-marker"></span>Taller SERECI (Empadronamiento) - 2025</li>
+                            <li class="flex items-center"><span class="custom-list-marker"></span>Python Básico - 2024</li>
+                            <li class="flex items-center"><span class="custom-list-marker"></span>Seminarios Horizontes Hidrocarburíferos - 2024</li>
+                            <li class="flex items-center"><span class="custom-list-marker"></span>Estudios de Aseguramiento de Flujo / Análisis de Riesgos - 2023</li>
+                            <li class="flex items-center"><span class="custom-list-marker"></span>Cocinas Solares - 2024</li>
+                            <li class="flex items-center"><span class="custom-list-marker"></span>Participación Feria StartUp 1ra Versión</li>
+                            <li class="flex items-center"><span class="custom-list-marker"></span>Seminarios Ciencia con Microorganismos - 2024</li>
+                            <li class="flex items-center"><span class="custom-list-marker"></span>Computación y Ofimática - 2012</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section">
+         <div class="container mx-auto max-w-3xl animate-on-scroll">
+            <h2 class="text-3xl font-bold mb-16 text-center text-primary-light dark:text-primary-dark animate-on-scroll" style="--delay: 0.1s;">Experiencia Profesional</h2>
+             <div class="timeline">
+                <div class="timeline-item" style="--delay: 0.2s;">
+                     <div class="timeline-icon"> <span class="material-symbols-outlined !text-lg">work</span> </div>
+                     <div class="card p-5 ml-4"> <h3 class="text-lg font-semibold mb-1 text-text-light dark:text-text-dark">Notario Operador RURAL (Empadronamiento Masivo)</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Elecciones Judiciales</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-500 mb-3 uppercase tracking-wider">Año 2024</p>
+                        <p class="text-sm text-text-light/90 dark:text-text-dark/90">Participación en el proceso de empadronamiento masivo.</p>
+                    </div>
+                </div>
+                 <div class="timeline-item" style="--delay: 0.4s;">
+                     <div class="timeline-icon"> <span class="material-symbols-outlined !text-lg">work</span> </div>
+                     <div class="card p-5 ml-4"> <h3 class="text-lg font-semibold mb-1 text-text-light dark:text-text-dark">Atención al Cliente</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Restaurante Charco de la Rana</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-500 mb-3 uppercase tracking-wider">Agosto 2016 - Abril 2025</p>
+                        <p class="text-sm text-text-light/90 dark:text-text-dark/90">Experiencia en servicio y atención directa al cliente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section section-with-shape bg-red-100 dark:bg-red-100/30 border-b border-border-light dark:border-border-dark">
+         <div class="section-shape">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31.74,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+        <div class="container mx-auto animate-on-scroll relative z-10"> <h2 class="text-3xl font-bold mb-12 text-center text-primary-light dark:text-primary-dark animate-on-scroll" style="--delay: 0.1s;">Habilidades y Tecnologías</h2>
+            <div class="grid md:grid-cols-2 gap-10">
+                <div class="card p-5 animate-on-scroll" style="--delay: 0.2s;">
+                    <div class="flex items-center mb-5">
+                        <span class="material-symbols-outlined !text-3xl text-primary-light dark:text-primary-dark mr-3">psychology</span>
+                        <h3 class="text-xl font-semibold text-text-light dark:text-text-dark">Habilidades Clave</h3>
+                    </div>
+                    <ul class="space-y-3 text-text-light/90 dark:text-text-dark/90">
+                        <li class="flex items-center"><span class="custom-list-marker"></span>Resolución de Problemas</li>
+                        <li class="flex items-center"><span class="custom-list-marker"></span>Motivación del Equipo</li>
+                        <li class="flex items-center"><span class="custom-list-marker"></span>Gestión del Tiempo</li>
+                        <li class="flex items-center"><span class="custom-list-marker"></span>Organización</li>
+                        <li class="flex items-center"><span class="custom-list-marker"></span>Creatividad</li>
+                        <li class="flex items-center"><span class="custom-list-marker"></span>Responsabilidad</li>
+                        <li class="flex items-center"><span class="custom-list-marker"></span>Sociabilidad y Colaboración</li>
+                     </ul>
+                </div>
+                <div class="card p-5 animate-on-scroll" style="--delay: 0.3s;">
+                     <div class="flex items-center mb-5">
+                        <span class="material-symbols-outlined !text-3xl text-primary-light dark:text-primary-dark mr-3">terminal</span>
+                        <h3 class="text-xl font-semibold text-text-light dark:text-text-dark">Tecnologías</h3>
+                    </div>
+                    <div class="space-y-5">
+                        <div>
+                            <p class="font-medium mb-2 text-text-light/90 dark:text-text-dark/90">Lenguajes de Programación:</p>
+                            <span class="inline-block bg-red-200 text-red-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full dark:bg-red-700 dark:text-red-100 tag-glow">Matlab</span>
+                            <span class="inline-block bg-red-200 text-red-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full dark:bg-red-700 dark:text-red-100 tag-glow">Python</span>
+                        </div>
+                         <div>
+                            <p class="font-medium mb-2 text-text-light/90 dark:text-text-dark/90">Software:</p>
+                            <span class="inline-block bg-gray-200 text-gray-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full dark:bg-red-900 dark:text-red-200 tag-glow">Microsoft Office</span>
+                             <span class="inline-block bg-gray-200 text-gray-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full dark:bg-red-900 dark:text-red-200 tag-glow">Adobe Lightroom</span>
+                             <span class="inline-block bg-gray-200 text-gray-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full dark:bg-red-900 dark:text-red-200 tag-glow">Photoshop</span>
+                             <span class="inline-block bg-gray-200 text-gray-800 text-sm font-medium mr-2 mb-2 px-3 py-1 rounded-full dark:bg-red-900 dark:text-red-200 tag-glow">Fotografía</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+         <div class="container mx-auto max-w-3xl text-center animate-on-scroll">
+            <h2 class="text-3xl font-bold mb-6 text-primary-light dark:text-primary-dark animate-on-scroll" style="--delay: 0.1s;">Contacto</h2>
+            <p class="mb-10 text-lg text-text-light dark:text-text-dark/90 leading-relaxed animate-on-scroll" style="--delay: 0.2s;">
+                Si estás interesado/a en colaborar o tienes alguna pregunta, no dudes en contactarme a través de los siguientes medios.
+            </p>
+            <div class="flex flex-col md:flex-row justify-center items-center space-y-6 md:space-y-0 md:space-x-10 text-text-light dark:text-text-dark/90 animate-on-scroll" style="--delay: 0.3s;">
+                <a href="mailto:choque.7366498@gmail.com" class="flex items-center group transition-colors duration-300 link-glow">
+                    <span class="material-symbols-outlined mr-2 !text-xl text-text-light/70 dark:text-text-dark/70 group-hover:text-primary-light dark:group-hover:text-primary-dark transition-transform group-hover:scale-110">mail</span>
+                    <span class="group-hover:text-primary-light dark:group-hover:text-primary-dark">choque.7366498@gmail.com</span>
+                </a>
+                <a href="tel:+59177261791" class="flex items-center group transition-colors duration-300 link-glow">
+                    <span class="material-symbols-outlined mr-2 !text-xl text-text-light/70 dark:text-text-dark/70 group-hover:text-primary-light dark:group-hover:text-primary-dark transition-transform group-hover:scale-110">call</span>
+                    <span class="group-hover:text-primary-light dark:group-hover:text-primary-dark">+591 77261791</span>
+                </a>
+                <a href="https://linkedin.com/in/zulma-choque-villca-58828b283/" target="_blank" rel="noopener noreferrer" class="flex items-center group transition-colors duration-300 link-glow">
+                     <span class="material-symbols-outlined mr-2 !text-xl text-text-light/70 dark:text-text-dark/70 group-hover:text-primary-light dark:group-hover:text-primary-dark transition-transform group-hover:scale-110">group</span>
+                     <span class="group-hover:text-primary-light dark:group-hover:text-primary-dark">LinkedIn</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-card-light dark:bg-card-dark py-8 mt-16 border-t border-border-light dark:border-border-dark transition-colors duration-300">
+        <div class="container mx-auto text-center text-sm text-gray-500 dark:text-red-200/100">
+             &copy; <span id="current-year"></span> Zulma Choque Villca. Todos los derechos reservados. <br>
+            Diseño web con <span class="material-symbols-outlined !text-sm text-primary-light dark:text-primary-dark">favorite</span> por la ingeniería ambiental.
+        </div>
+    </footer>
+
+    <script>
+        // --- Theme Toggler ---
+        const themeToggleButtons = document.querySelectorAll('#theme-toggle, #theme-toggle-mobile');
+        const htmlElement = document.documentElement;
+
+        const applyTheme = (theme) => {
+            htmlElement.classList.remove('light', 'dark');
+            htmlElement.classList.add(theme);
+            const leafColorVar = theme === 'dark' ? 'var(--leaf-color-dark)' : 'var(--leaf-color-light)';
+            document.documentElement.style.setProperty('--current-leaf-color', leafColorVar);
+             // Update glow color variable
+             const glowColorVar = theme === 'dark' ? 'var(--glow-color-dark-rgb)' : 'var(--glow-color-light-rgb)';
+             document.documentElement.style.setProperty('--current-glow-color-rgb', glowColorVar);
+        };
+
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+        applyTheme(initialTheme);
+
+        themeToggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const isDark = htmlElement.classList.contains('dark');
+                const newTheme = isDark ? 'light' : 'dark';
+                applyTheme(newTheme);
+                localStorage.setItem('theme', newTheme);
+            });
+        });
+
+        // --- Mobile Menu ---
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuLinks = mobileMenu.querySelectorAll('.menu-link');
+        const menuIcon = menuButton.querySelector('.material-symbols-outlined');
+
+        menuButton.addEventListener('click', () => {
+            const hidden = mobileMenu.classList.toggle('hidden');
+            menuIcon.textContent = hidden ? 'menu' : 'close';
+            menuButton.setAttribute('aria-label', hidden ? 'Open menu' : 'Close menu');
+            menuButton.setAttribute('aria-expanded', !hidden);
+        });
+
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.textContent = 'menu';
+                menuButton.setAttribute('aria-label', 'Open menu');
+                menuButton.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // --- Smooth Scrolling ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (!this.getAttribute('href').startsWith('#') || this.getAttribute('href') === '#') return;
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerOffset = document.querySelector('header')?.offsetHeight || 60;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset - 24;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                    setTimeout(() => {
+                        targetElement.setAttribute('tabindex', '-1');
+                        targetElement.focus({ preventScroll: true });
+                        targetElement.removeAttribute('tabindex');
+                    }, 500);
+                }
+            });
+        });
+
+        // --- Footer Year ---
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // --- Intersection Observer for General Animations & Timeline ---
+        const observerOptions = { threshold: 0.15 };
+        const animationObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    if (entry.target.id === 'experience') {
+                         entry.target.classList.add('is-visible');
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        const elementsToAnimate = document.querySelectorAll('.animate-on-scroll, .card, .timeline-item, #experience');
+        elementsToAnimate.forEach(el => { animationObserver.observe(el); });
+
+        // --- Animated Leaves ---
+        const leafContainer = document.getElementById('leaf-container');
+        const sectionsToTriggerLeaves = ['#about', '#education', '#skills'];
+        let leavesActive = false;
+        let leafInterval;
+
+        function createLeaf() {
+            if (!leafContainer) return;
+            const leaf = document.createElement('div');
+            leaf.classList.add('leaf');
+            leaf.style.left = `${Math.random() * 100}vw`;
+            const duration = Math.random() * 5 + 8;
+            leaf.style.animationDuration = `${duration}s`;
+            leaf.style.animationDelay = `${Math.random() * 2}s`;
+            // Use the dynamically set --current-leaf-color CSS variable
+            leaf.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--current-leaf-color').trim();
+            leafContainer.appendChild(leaf);
+            leaf.addEventListener('animationend', () => { leaf.remove(); });
+        }
+
+         const leafTriggerObserver = new IntersectionObserver((entries) => {
+             let shouldBeActive = false;
+             entries.forEach(entry => {
+                 const targetId = entry.target.getAttribute('id');
+                 if (entry.isIntersecting && targetId && sectionsToTriggerLeaves.includes(`#${targetId}`)) {
+                     shouldBeActive = true;
+                 }
+             });
+
+             if (shouldBeActive && !leavesActive) {
+                 leavesActive = true;
+                 if (!leafInterval) { // Start interval only if not already running
+                    leafInterval = setInterval(createLeaf, 800);
+                 }
+             } else if (!shouldBeActive && leavesActive) {
+                 leavesActive = false;
+                 clearInterval(leafInterval);
+                 leafInterval = null; // Reset interval variable
+             }
+         }, { threshold: 0.1 });
+
+         sectionsToTriggerLeaves.forEach(selector => {
+             const section = document.querySelector(selector);
+             if (section) { leafTriggerObserver.observe(section); }
+         });
+
+    </script>
+
+</body>
+</html>
